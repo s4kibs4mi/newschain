@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from "vue-router";
+import VueSimpleMarkdown from "vue-simple-markdown";
 import NewsList from "@/components/NewsList";
-import NewsNew from "@/components/NewsNew";
-import AuthorLogin from "@/components/AuthorLogin";
+import NewsCreate from "@/components/NewsCreate";
+import AuthorProfile from "@/components/AuthorProfile";
+import NewsView from "@/components/NewsView";
 
 Vue.config.productionTip = false;
-
 Vue.use(VueRouter);
+Vue.use(VueSimpleMarkdown);
 
 const routes = [
     {
@@ -16,11 +18,15 @@ const routes = [
     },
     {
         path: '/write',
-        component: NewsNew,
+        component: NewsCreate,
     },
     {
-        path: '/login',
-        component: AuthorLogin,
+        path: '/view',
+        component: NewsView,
+    },
+    {
+        path: '/profile',
+        component: AuthorProfile,
     }
 ]
 

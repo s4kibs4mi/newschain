@@ -18,12 +18,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link">
-            <router-link to="/login">Login</router-link>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">
-            <router-link to="/register">Register</router-link>
+            <router-link to="/profile">My Profile</router-link>
           </a>
         </li>
       </ul>

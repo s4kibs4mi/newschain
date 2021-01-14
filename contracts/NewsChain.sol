@@ -13,8 +13,8 @@ contract NewsChain {
         string title;
         string details;
         address writer;
-        string tags;
         int created_at;
+        int updated_at;
     }
 
     address owner;
@@ -23,8 +23,6 @@ contract NewsChain {
     mapping(string => Post) posts;
     mapping(address => bool) isWriterExists;
     mapping(string => bool) isPostIdExists;
-
-    string portalName;
 
     function createAuthor(string memory name, string memory title, string memory email, int created_at) public payable {
         require(bytes(name).length > 0, "Name is required");
@@ -37,31 +35,65 @@ contract NewsChain {
         writers[msg.sender] = Writer(name, title, email, created_at);
     }
 
-    function isAuthorRegistered() public returns (bool){
+    function getAuthorProfile() public view returns (string memory name, string memory title, string memory email, int created_at){
+        require(isWriterExists[msg.sender] == true, "Author is not registered");
+
+        Writer memory author = writers[msg.sender];
+        name = author.name;
+        title = author.title;
+        email = author.email;
+        created_at = author.created_at;
+    }
+
+    function updateAuthor(string memory name, string memory title, string memory email) public payable {
+        require(bytes(name).length > 0, "Name is required");
+        require(bytes(title).length > 0, "Title is required");
+        require(bytes(email).length > 0, "Email is required");
+        require(isWriterExists[msg.sender] == true, "User isn't registered");
+
+        writers[msg.sender].name = name;
+        writers[msg.sender].title = title;
+        writers[msg.sender].email = email;
+    }
+
+    function isAuthorRegistered() public view returns (bool){
         return isWriterExists[msg.sender];
     }
 
-    function isOwner() public returns (bool){
+    function isOwner() public view returns (bool){
         return msg.sender == owner;
     }
 
-    function createPost(string memory id, string memory title, string memory details, string memory tags, int created_at) public payable {
+    function createPost(string memory id, string memory title, string memory details, int created_at) public payable {
         require(isWriterExists[msg.sender] == true, "User not registered");
         require(isPostIdExists[id] == false, "PostId already exists");
         require(bytes(title).length > 0, "Title is required");
         require(bytes(details).length > 0, "Details is required");
-        require(bytes(tags).length > 0, "Tags is required");
         require(created_at > 0, "CreatedAt is invalid");
 
         isPostIdExists[id] = true;
-        posts[id] = Post(title, details, msg.sender, tags, created_at);
+        posts[id] = Post(title, details, msg.sender, created_at, 0);
     }
 
-    function getAuthorProfile() public returns (string memory name, string memory title, string memory email, int created_at){
-        require(isWriterExists[msg.sender] == true, "Author is not registered");
-        name = writers[msg.sender].name;
-        title = writers[msg.sender].title;
-        email = writers[msg.sender].email;
-        created_at = writers[msg.sender].created_at;
+    function getPost(string memory id) public view returns (string memory title, string memory details, int created_at, int updated_at) {
+        require(isPostIdExists[id] == true, "PostId doesn't exists");
+
+        Post memory post = posts[id];
+        title = post.title;
+        details = post.details;
+        created_at = post.created_at;
+        updated_at = post.updated_at;
+    }
+
+    function updatePost(string memory id, string memory title, string memory details, int updated_at) public payable {
+        require(isWriterExists[msg.sender] == true, "User not registered");
+        require(isPostIdExists[id] == true, "PostId doesn't exists");
+        require(bytes(title).length > 0, "Title is required");
+        require(bytes(details).length > 0, "Details is required");
+        require(updated_at > 0, "UpdatedAt is invalid");
+
+        posts[id].title = title;
+        posts[id].details = details;
+        posts[id].updated_at = updated_at;
     }
 }

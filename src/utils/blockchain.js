@@ -1,6 +1,6 @@
 let Web3 = require("web3");
 
-let contractId = '0xa1A90C3945dB37a820FF1DeC20969638D106F385';
+let contractId = '0x3756f1131eAE390d2d7606e3F3335017BAc28339';
 let contractAbi = [
     {
         "constant": false,
@@ -27,6 +27,61 @@ let contractAbi = [
             }
         ],
         "name": "createAuthor",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [],
+        "name": "getAuthorProfile",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "title",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "email",
+                "type": "string"
+            },
+            {
+                "internalType": "int256",
+                "name": "created_at",
+                "type": "int256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "title",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "email",
+                "type": "string"
+            }
+        ],
+        "name": "updateAuthor",
         "outputs": [],
         "payable": true,
         "stateMutability": "payable",
@@ -81,11 +136,6 @@ let contractAbi = [
                 "type": "string"
             },
             {
-                "internalType": "string",
-                "name": "tags",
-                "type": "string"
-            },
-            {
                 "internalType": "int256",
                 "name": "created_at",
                 "type": "int256"
@@ -99,12 +149,46 @@ let contractAbi = [
     },
     {
         "constant": false,
-        "inputs": [],
-        "name": "getAuthorProfile",
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "id",
+                "type": "string"
+            }
+        ],
+        "name": "getPost",
         "outputs": [
             {
                 "internalType": "string",
-                "name": "name",
+                "name": "title",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "details",
+                "type": "string"
+            },
+            {
+                "internalType": "int256",
+                "name": "created_at",
+                "type": "int256"
+            },
+            {
+                "internalType": "int256",
+                "name": "updated_at",
+                "type": "int256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "id",
                 "type": "string"
             },
             {
@@ -114,17 +198,19 @@ let contractAbi = [
             },
             {
                 "internalType": "string",
-                "name": "email",
+                "name": "details",
                 "type": "string"
             },
             {
                 "internalType": "int256",
-                "name": "created_at",
+                "name": "updated_at",
                 "type": "int256"
             }
         ],
-        "payable": false,
-        "stateMutability": "nonpayable",
+        "name": "updatePost",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
         "type": "function"
     }
 ];

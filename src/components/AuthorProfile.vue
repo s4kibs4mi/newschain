@@ -37,7 +37,7 @@ import Blockchain from "@/utils/blockchain";
 import WaitingLoader from "@/components/WaitingLoader";
 
 export default {
-  name: "AuthorLogin",
+  name: "AuthorProfile",
   components: {WaitingLoader},
   data() {
     return {
@@ -53,16 +53,26 @@ export default {
   },
   mounted() {
     this.isLoading = true;
+
     Blockchain.getWeb3Client().eth.requestAccounts()
         .then(accounts => {
           this.contract = Blockchain.getContract(Blockchain.getWeb3Client());
           this.account = accounts[0];
 
           this.contract.methods.isAuthorRegistered().call({
-            from: this.account.address,
+            from: this.account,
           }).then(result => {
             this.isLoading = false;
             this.isAuthorRegistered = result;
+
+            if (this.isAuthorRegistered) {
+              this.contract.methods.getAuthorProfile().call()
+                  .then(result => {
+                    this.name = result.name;
+                    this.title = result.title;
+                    this.email = result.email;
+                  }).catch(console.log);
+            }
           }).catch(console.log)
         }).catch(console.log);
   },
@@ -101,7 +111,37 @@ export default {
       });
     },
     onUpdateAccount: function () {
+      if (!this.isFieldsValid()) {
+        alert('All fields are required');
+        return
+      }
 
+      this.isLoading = true;
+
+      Blockchain.getWeb3Client().eth.getTransactionCount(this.account)
+          .then(count => {
+            let txPld = {
+              "from": this.account,
+              "to": Blockchain.getContractId(),
+              "value": Blockchain.getWeb3Client().utils.toHex(Blockchain.getWeb3Client().utils.toWei("0.001", "ether")),
+              "gas": 21000,
+              "nonce": count,
+              "data": this.contract.methods.updateAuthor(this.name, this.title, this.email).encodeABI(),
+            };
+
+            Blockchain.getWeb3Client().eth.sendTransaction(txPld)
+                .then(result => {
+                  this.isLoading = false;
+                  console.log(result);
+                  location.reload();
+                }).catch(err => {
+              console.log(err)
+              this.isLoading = false;
+            });
+          }).catch(err => {
+        console.log(err);
+        this.isLoading = false;
+      });
     },
     isFieldsValid: function () {
       return this.name.length > 0 && this.email.length > 0 && this.title.length > 0;
