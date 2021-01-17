@@ -1,17 +1,33 @@
 <template>
-  <div class="col-3 mt-2 ml-2">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+  <div class="mt-2 ml-2">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ title }}</h5>
+          <a v-bind:href="viewId" class="btn btn-primary">
+            Details
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: "NewsItem"
+  name: "NewsItem",
+  props: {
+    id: String,
+    title: String
+  },
+  data() {
+    return {
+      viewId: String
+    }
+  },
+  mounted() {
+    this.viewId = '/#/view?id=' + this.id;
+  }
 }
 </script>

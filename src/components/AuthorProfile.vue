@@ -66,12 +66,13 @@ export default {
             this.isAuthorRegistered = result;
 
             if (this.isAuthorRegistered) {
-              this.contract.methods.getAuthorProfile().call()
-                  .then(result => {
-                    this.name = result.name;
-                    this.title = result.title;
-                    this.email = result.email;
-                  }).catch(console.log);
+              this.contract.methods.getAuthorProfile().call({
+                from: this.account,
+              }).then(result => {
+                this.name = result.name;
+                this.title = result.title;
+                this.email = result.email;
+              }).catch(console.log);
             }
           }).catch(console.log)
         }).catch(console.log);

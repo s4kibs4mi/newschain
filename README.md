@@ -1,24 +1,31 @@
-# newschain
+# NewsChain
 
-## Project setup
-```
-yarn install
-```
+### Install solc
 
-### Compiles and hot-reloads for development
 ```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
+brew update
+brew upgrade
+brew tap ethereum/ethereum
+brew install solidity
 ```
 
-### Lints and fixes files
+### Install go-ethereum & abigen
+
 ```
-yarn lint
+go get -u github.com/ethereum/go-ethereum
+cd $GOPATH/src/github.com/ethereum/go-ethereum/
+make
+make devtools
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Generate smart contract abi
+
+```
+solc --abi contracts/NewsChain.sol -o bindings/
+```
+
+### Generate go code
+
+```
+$HOME/go/bin/abigen --abi ./bindings/NewsChain.abi --pkg contracts --out bindings/newschain.go
+```

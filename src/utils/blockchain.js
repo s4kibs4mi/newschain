@@ -1,9 +1,52 @@
 let Web3 = require("web3");
 
-let contractId = '0x3756f1131eAE390d2d7606e3F3335017BAc28339';
+let contractId = '0xa535a6119E1d20C0d8185E487bb58463Ba56732c';
 let contractAbi = [
     {
-        "constant": false,
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "id",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "title",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "int256",
+                "name": "createdAt",
+                "type": "int256"
+            }
+        ],
+        "name": "PostCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "id",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "title",
+                "type": "string"
+            }
+        ],
+        "name": "PostUpdated",
+        "type": "event"
+    },
+    {
         "inputs": [
             {
                 "internalType": "string",
@@ -28,12 +71,11 @@ let contractAbi = [
         ],
         "name": "createAuthor",
         "outputs": [],
-        "payable": true,
         "stateMutability": "payable",
-        "type": "function"
+        "type": "function",
+        "payable": true
     },
     {
-        "constant": false,
         "inputs": [],
         "name": "getAuthorProfile",
         "outputs": [
@@ -58,12 +100,11 @@ let contractAbi = [
                 "type": "int256"
             }
         ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
     },
     {
-        "constant": false,
         "inputs": [
             {
                 "internalType": "string",
@@ -83,12 +124,11 @@ let contractAbi = [
         ],
         "name": "updateAuthor",
         "outputs": [],
-        "payable": true,
         "stateMutability": "payable",
-        "type": "function"
+        "type": "function",
+        "payable": true
     },
     {
-        "constant": false,
         "inputs": [],
         "name": "isAuthorRegistered",
         "outputs": [
@@ -98,12 +138,11 @@ let contractAbi = [
                 "type": "bool"
             }
         ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
     },
     {
-        "constant": false,
         "inputs": [],
         "name": "isOwner",
         "outputs": [
@@ -113,12 +152,11 @@ let contractAbi = [
                 "type": "bool"
             }
         ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
     },
     {
-        "constant": false,
         "inputs": [
             {
                 "internalType": "string",
@@ -143,12 +181,11 @@ let contractAbi = [
         ],
         "name": "createPost",
         "outputs": [],
-        "payable": true,
         "stateMutability": "payable",
-        "type": "function"
+        "type": "function",
+        "payable": true
     },
     {
-        "constant": false,
         "inputs": [
             {
                 "internalType": "string",
@@ -162,6 +199,11 @@ let contractAbi = [
                 "internalType": "string",
                 "name": "title",
                 "type": "string"
+            },
+            {
+                "internalType": "address",
+                "name": "author",
+                "type": "address"
             },
             {
                 "internalType": "string",
@@ -179,12 +221,11 @@ let contractAbi = [
                 "type": "int256"
             }
         ],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
     },
     {
-        "constant": false,
         "inputs": [
             {
                 "internalType": "string",
@@ -209,9 +250,9 @@ let contractAbi = [
         ],
         "name": "updatePost",
         "outputs": [],
-        "payable": true,
         "stateMutability": "payable",
-        "type": "function"
+        "type": "function",
+        "payable": true
     }
 ];
 

@@ -1,4 +1,4 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.8.0;
 
 contract NewsChain {
 
@@ -23,6 +23,9 @@ contract NewsChain {
     mapping(string => Post) posts;
     mapping(address => bool) isWriterExists;
     mapping(string => bool) isPostIdExists;
+
+    event PostCreated(string id, string title, int createdAt);
+    event PostUpdated(string id, string title);
 
     function createAuthor(string memory name, string memory title, string memory email, int created_at) public payable {
         require(bytes(name).length > 0, "Name is required");
@@ -73,13 +76,16 @@ contract NewsChain {
 
         isPostIdExists[id] = true;
         posts[id] = Post(title, details, msg.sender, created_at, 0);
+
+        emit PostCreated(id, title, created_at);
     }
 
-    function getPost(string memory id) public view returns (string memory title, string memory details, int created_at, int updated_at) {
+    function getPost(string memory id) public view returns (string memory title, address author, string memory details, int created_at, int updated_at) {
         require(isPostIdExists[id] == true, "PostId doesn't exists");
 
         Post memory post = posts[id];
         title = post.title;
+        author = post.writer;
         details = post.details;
         created_at = post.created_at;
         updated_at = post.updated_at;
@@ -95,5 +101,7 @@ contract NewsChain {
         posts[id].title = title;
         posts[id].details = details;
         posts[id].updated_at = updated_at;
+
+        emit PostUpdated(id, title);
     }
 }
