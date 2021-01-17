@@ -6,6 +6,7 @@ import NewsList from "@/components/NewsList";
 import NewsCreate from "@/components/NewsCreate";
 import AuthorProfile from "@/components/AuthorProfile";
 import NewsView from "@/components/NewsView";
+import NewsUpdate from "@/components/NewsUpdate";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -23,6 +24,10 @@ const routes = [
     {
         path: '/view',
         component: NewsView,
+    },
+    {
+        path: '/edit',
+        component: NewsUpdate,
     },
     {
         path: '/profile',

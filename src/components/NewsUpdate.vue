@@ -9,7 +9,7 @@
         <textarea placeholder="News Details" v-model="newsDetails" id="news-details"></textarea>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary" v-on:click="onCreate">Create</button>
+        <button class="btn btn-primary" v-on:click="onUpdate">Update</button>
       </div>
     </div>
   </div>
@@ -19,10 +19,9 @@
 import WaitingLoader from "@/components/WaitingLoader";
 import Blockchain from "@/utils/blockchain";
 import EasyMDE from "easymde";
-import {v4 as uuidv4} from 'uuid';
 
 export default {
-  name: "NewsCreate",
+  name: "NewsUpdate",
   components: {WaitingLoader},
   data() {
     return {
@@ -31,12 +30,14 @@ export default {
       newsDetails: '',
       account: undefined,
       easyMde: undefined,
-      contract: undefined
+      contract: undefined,
+      postId: undefined
     }
   },
   mounted() {
     this.isLoading = true;
     this.easyMde = new EasyMDE({element: document.getElementById('news-details')});
+    this.postId = this.$route.query.id;
 
     Blockchain.getWeb3Client().eth.requestAccounts()
         .then(accounts => {
@@ -46,16 +47,16 @@ export default {
           this.contract.methods.isAuthorRegistered().call({
             from: this.account,
           }).then(result => {
-            this.isLoading = false;
-
             if (!result) {
               return this.$router.push('profile');
             }
+
+            this.getPost();
           }).catch(console.log)
         }).catch(console.log);
   },
   methods: {
-    onCreate: function () {
+    onUpdate: function () {
       this.newsDetails = this.easyMde.value();
 
       if (!this.isFieldsValid()) {
@@ -67,8 +68,6 @@ export default {
 
       Blockchain.getWeb3Client().eth.getTransactionCount(this.account)
           .then(count => {
-            let id = uuidv4();
-
             let now = Math.round((new Date()).getTime() / 1000);
 
             let txPld = {
@@ -77,14 +76,14 @@ export default {
               "value": Blockchain.getWeb3Client().utils.toHex(Blockchain.getWeb3Client().utils.toWei("0.001", "ether")),
               "gas": 21000,
               "nonce": count,
-              "data": this.contract.methods.createPost(id, this.newsTitle, this.newsDetails, now).encodeABI(),
+              "data": this.contract.methods.updatePost(this.postId, this.newsTitle, this.newsDetails, now).encodeABI(),
             };
 
             Blockchain.getWeb3Client().eth.sendTransaction(txPld)
                 .then(result => {
                   this.isLoading = false;
                   console.log(result);
-                  this.$router.push('view?id=' + id);
+                  this.$router.push('view?id=' + this.postId);
                 }).catch(err => {
               console.log(err)
               this.isLoading = false;
@@ -96,6 +95,24 @@ export default {
     },
     isFieldsValid: function () {
       return this.newsTitle.length > 0 && this.newsDetails.length > 0;
+    },
+    getPost: function () {
+      Blockchain.getWeb3Client().eth.requestAccounts()
+          .then(accounts => {
+            this.contract = Blockchain.getContract(Blockchain.getWeb3Client());
+            this.account = accounts[0];
+
+            this.contract.methods.getPost(this.postId).call({
+              from: this.account,
+            }).then(result => {
+              this.isLoading = false;
+
+              this.newsTitle = result.title;
+              this.newsDetails = result.details;
+              this.easyMde.value(this.newsDetails);
+              console.log(result);
+            }).catch(console.log)
+          }).catch(console.log);
     }
   }
 }

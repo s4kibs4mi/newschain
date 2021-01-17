@@ -1,6 +1,6 @@
 let Web3 = require("web3");
 
-let contractId = '0xa535a6119E1d20C0d8185E487bb58463Ba56732c';
+let contractId = '0xC7B806A2cE809e7c905EF633668c4c0d9d920177';
 let contractAbi = [
     {
         "anonymous": false,
@@ -253,6 +253,20 @@ let contractAbi = [
         "stateMutability": "payable",
         "type": "function",
         "payable": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transfer",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function",
+        "payable": true
     }
 ];
 
@@ -267,6 +281,10 @@ class Blockchain {
 
     static getContract(c) {
         return new c.eth.Contract(contractAbi, contractId);
+    }
+
+    static getAppUrl() {
+        return 'http://localhost:9090/v1/';
     }
 }
 

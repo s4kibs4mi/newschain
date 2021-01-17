@@ -97,11 +97,17 @@ contract NewsChain {
         require(bytes(title).length > 0, "Title is required");
         require(bytes(details).length > 0, "Details is required");
         require(updated_at > 0, "UpdatedAt is invalid");
+        require(posts[id].writer == msg.sender, "You are not authorized to update the post");
 
         posts[id].title = title;
         posts[id].details = details;
         posts[id].updated_at = updated_at;
 
         emit PostUpdated(id, title);
+    }
+
+    function transfer(address newOwner) public payable {
+        require(owner == msg.sender);
+        owner = newOwner;
     }
 }

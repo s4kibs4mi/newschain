@@ -7,6 +7,10 @@
           <a v-bind:href="viewId" class="btn btn-primary">
             Details
           </a>
+          &nbsp;
+          <a v-bind:href="editId" class="btn btn-secondary">
+            Edit
+          </a>
         </div>
       </div>
     </div>
@@ -23,11 +27,13 @@ export default {
   },
   data() {
     return {
-      viewId: String
+      viewId: String,
+      editId: String
     }
   },
   mounted() {
     this.viewId = '/#/view?id=' + this.id;
+    this.editId = '/#/edit?id=' + this.id;
   }
 }
 </script>
