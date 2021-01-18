@@ -47,25 +47,3 @@ truffle compile
 ```
 truffle migrate --reset
 ```
-
-### Screens
-
-##### User register
-
-![https://github.com/s4kibs4mi/newschain/blob/master/resources/1_profile.png?raw=true]()
-
-##### Write news
-
-![https://github.com/s4kibs4mi/newschain/blob/master/resources/2_write.png?raw=true]()
-
-##### Publish news
-
-![https://github.com/s4kibs4mi/newschain/blob/master/resources/3_write_push.png?raw=true]()
-
-##### View news
-
-![https://github.com/s4kibs4mi/newschain/blob/master/resources/4_view.png?raw=true]()
-
-##### List news
-
-![https://github.com/s4kibs4mi/newschain/blob/master/resources/5_list.png?raw=true]()
