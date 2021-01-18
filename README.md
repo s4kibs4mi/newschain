@@ -1,5 +1,7 @@
 # NewsChain
 
+Smart contract to publish news on ethereum blockchain.
+
 ### Install solc
 
 ```
