@@ -43,7 +43,7 @@ module.exports = {
         // options below to some value.
         //
         development: {
-            host: "eth.sakib.ninja",     // Localhost (default: none)
+            host: "localhost",     // Localhost (default: none)
             port: 8545,            // Standard Ethereum port (default: none)
             network_id: "5777",       // Any network (default: none)
         },
