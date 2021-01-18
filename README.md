@@ -29,3 +29,27 @@ solc --abi contracts/NewsChain.sol -o bindings/
 ```
 $HOME/go/bin/abigen --abi ./bindings/NewsChain.abi --pkg contracts --out bindings/newschain.go
 ```
+
+### Compile solidity code
+
+```
+truffle compile
+```
+
+### Deploy smart contract
+
+```
+truffle migrate --reset
+```
+
+### Screens
+
+##### User register
+
+##### Write news
+
+##### Publish news
+
+##### View news
+
+##### List news
