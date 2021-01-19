@@ -49,3 +49,5 @@ truffle compile
 ```
 truffle migrate --reset
 ```
+
+Tutorial: https://medium.com/liveklass/building-dapps-on-ethereum-from-scratch-b428799725a
